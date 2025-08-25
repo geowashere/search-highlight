@@ -2,12 +2,16 @@
 
 import { useState } from "react";
 
-const randomText = "test abc lorem ipsum test s test a tes a";
+const randomTexts = [
+  "test abc lorem ipsum test s test a tes a",
+  "test 2 string",
+  "more test string",
+];
 
 export default function Home() {
   const [searchText, setSearchText] = useState("");
 
-  const getFilteredText = () => {
+  const getFilteredText = (randomText: string) => {
     if (!searchText) return randomText;
 
     const words = randomText.split(" ");
@@ -26,7 +30,10 @@ export default function Home() {
             {before}
             <span className="bg-yellow-300">{match}</span>
             {after}
-            <span> &nbsp;</span>
+            <span>
+              {/* add space if it is not the last word  */}
+              {index < words.length - 1 && " "}
+            </span>
           </span>
         );
       }
@@ -42,7 +49,11 @@ export default function Home() {
         className="border-b p-2"
         onChange={(e) => setSearchText(e.target.value)}
       />
-      <div className="">{getFilteredText()}</div>
+      <div className="">
+        {randomTexts.map((text, index) => (
+          <p key={index}>{getFilteredText(text)}</p>
+        ))}
+      </div>
     </div>
   );
 }
